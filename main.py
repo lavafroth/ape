@@ -1,28 +1,32 @@
 from dataclasses import dataclass
 from typing import Tuple
-from abc import ABC
+import inspect
 
 
-class Host(ABC):
-    class __base:
-        def __str__(self):
-            match self:
-                case Host.V4(octets):
-                    return ".".join(map(str, octets))
-                case Host.V6(quartet):
-                    return ":".join(f"{q:04x}" for q in quartet)
+def AlgebraicEnum(cls):
+    for subclass_name, subclass in inspect.getmembers(cls, predicate=inspect.isclass):
+        if subclass_name != "__class__":
+            setattr(cls, subclass_name, type(subclass_name, (cls, subclass), {}))
 
+    return cls
+
+
+@AlgebraicEnum
+class Host:
     @dataclass
-    class V4(__base):
+    class V4:
         octets: Tuple[int, int, int, int]
 
     @dataclass
-    class V6(__base):
-        quartet: Tuple[int, int, int, int, int, int]
+    class V6:
+        quartets: Tuple[int, int, int, int, int, int]
 
-
-Host.register(Host.V4)
-Host.register(Host.V6)
+    def __str__(self):
+        match self:
+            case Host.V4(octets):
+                return ".".join(map(str, octets))
+            case Host.V6(quartets):
+                return ":".join(f"{q:04x}" for q in quartets)
 
 
 def main():
