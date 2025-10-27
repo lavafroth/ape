@@ -11,7 +11,7 @@ class Host:
 
     @dataclass
     class V6:
-        quartets: Tuple[int, int, int, int, int, int]
+        quartets: Tuple[int, int, int, int, int, int, int, int]
 
     def __str__(self):
         match self:
@@ -23,7 +23,7 @@ class Host:
 
 for host in (
     Host.V4((1, 1, 1, 1)),
-    Host.V6((1, 1, 1, 1, 1, 1)),
+    Host.V6((0x2011, 0xcdba, 0x1900, 0x0, 0x0, 0x0, 0x1757, 0x3818)),
 ):
     assert isinstance(host, Host)
     print(host)
