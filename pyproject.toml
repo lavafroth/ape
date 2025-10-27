@@ -1,0 +1,7 @@
+[project]
+name = "ape"
+version = "0.1.0"
+description = "Algebraic Python Enums"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = []
