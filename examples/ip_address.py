@@ -1,14 +1,6 @@
 from dataclasses import dataclass
 from typing import Tuple
-import inspect
-
-
-def AlgebraicEnum(cls):
-    for subclass_name, subclass in inspect.getmembers(cls, predicate=inspect.isclass):
-        if subclass_name != "__class__":
-            setattr(cls, subclass_name, type(subclass_name, (cls, subclass), {}))
-
-    return cls
+from ape import AlgebraicEnum
 
 
 @AlgebraicEnum
@@ -29,14 +21,9 @@ class Host:
                 return ":".join(f"{q:04x}" for q in quartets)
 
 
-def main():
-    for host in (
-        Host.V4((1, 1, 1, 1)),
-        Host.V6((1, 1, 1, 1, 1, 1)),
-    ):
-        assert isinstance(host, Host)
-        print(host)
-
-
-if __name__ == "__main__":
-    main()
+for host in (
+    Host.V4((1, 1, 1, 1)),
+    Host.V6((1, 1, 1, 1, 1, 1)),
+):
+    assert isinstance(host, Host)
+    print(host)
