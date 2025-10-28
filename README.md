@@ -3,7 +3,7 @@
 Algebraic Python Enums
 
 Create Python enums with differently sized variants and transparently
-relay type information to the language server using the `@AlgebraicEnum` macro.
+relay type information to the language server using the `@AlgebraicEnum` decorator.
 
 ## Example
 
@@ -26,11 +26,10 @@ class WebEvent:
     class Keypress:
       key: str
 
-    @datclass
+    @dataclass
     class Click:
       x: int
       y: int
-}
 ```
 
 Also check out the [IP address example](./examples/ip_address.py).
