@@ -1,19 +1,22 @@
 import pytest
-from ape import AlgebraicEnum
+from ape import AlgebraicEnum, VariantNotDataclassError, IndividualVariantMethodError
 from dataclasses import dataclass
 
+
 def test_non_dataclass_variant():
-    with pytest.raises(Exception):
+    with pytest.raises(VariantNotDataclassError):
 
         @AlgebraicEnum
         class Enum:
             class Variant1:
                 pass
+
             class Variant2:
                 pass
 
+
 def test_variant_with_functions():
-    with pytest.raises(Exception):
+    with pytest.raises(IndividualVariantMethodError):
 
         @AlgebraicEnum
         class Enum:
@@ -21,6 +24,7 @@ def test_variant_with_functions():
             class Variant1:
                 theta: str
                 epsilon: str
+
             @dataclass
             class Variant2:
                 alpha: int
@@ -37,6 +41,7 @@ def test_sane_definition():
         class Variant1:
             theta: str
             epsilon: str
+
         @dataclass
         class Variant2:
             alpha: int
@@ -48,12 +53,14 @@ def test_sane_definition():
     assert isinstance(v1, Enum)
     assert isinstance(v2, Enum)
 
+
 def test_minimal_sane_definition():
     @AlgebraicEnum
     class Enum:
         @dataclass
         class Variant1:
             pass
+
         @dataclass
         class Variant2:
             pass
@@ -72,6 +79,7 @@ def test_sane_definition_match_variants():
         class Variant1:
             theta: str
             epsilon: str
+
         @dataclass
         class Variant2:
             alpha: int
