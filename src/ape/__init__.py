@@ -15,12 +15,9 @@ class VariantNotDataclassError(Exception):
 
 
 def AlgebraicEnum(enum_base):
-    for variant_name, variant in inspect.getmembers(
-        enum_base, predicate=inspect.isclass
-    ):
-        if variant_name == "__class__":
+    for variant_name, variant in enum_base.__dict__.items():
+        if not isinstance(variant, type):
             continue
-
         if not is_dataclass(variant):
             raise VariantNotDataclassError(variant_name)
 
